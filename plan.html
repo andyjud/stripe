@@ -1,0 +1,27 @@
+{% extends 'layouts/blank.html' %}
+
+{% block content %} 
+
+<div class="max-w-4xl mx-auto px-8 py-24">
+  <div class="grid grid-cols-3 gap-6">
+      <div class="col-span-2 rounded-xl overflow-hidden">
+          <img class="w-full h-auto" src="https://res.cloudinary.com/dpuzdancn/image/upload/f_auto,q_auto/v1/static/uekrd91rurs6jogdn5bu">
+      </div>
+      <div class="pt-32">
+         <h2>Superfan</h2>
+         <p class="text-lg">$3 / month</p>
+
+         <form enctype="multipart/form-data" method="post" role="product_page">
+          {% csrf_token %}
+          <input type="hidden" name="price_id" value="price_1QA2RaBhu1hHmfZdaWS5IsQp"> 
+          <input type="hidden" name="quantity" value="1"> 
+          <button type="submit" class="!block !rounded-full !bg-black hover:!bg-neutral-500 active:scale-95 transition text-center !px-24" data-bind-href="pricing">Subscribe</button>
+         </form>
+         
+         <p class="pt-8 text-sm">Subscribe to Andreas Jud's Patreon Page to get personal assistance on coding issues, access to exclusive source code for tutorials, monthly website inspirations and much more.</p>
+         <p class="text-sm hover:underline"><a href="https://www.patreon.com/andreasjud/membership" target="_blank">Click here</a></p>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
