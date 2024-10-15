@@ -1,0 +1,14 @@
+{% extends 'layouts/blank.html' %}
+
+{% block content %}
+
+<div class="max-w-4xl mx-auto px-8 py-24 text-center">
+    <h1 class="text-6xl">Purchase cancelled</h1>
+    <h2>Your payment didn't go through :(</h2>
+    <p class="my-10 text-gray-500">
+        Please try again
+    </p>
+    <a class="button" href="{% url 'home' %}">Back to Shop</a>
+</div>
+
+{% endblock %}
