@@ -14,3 +14,7 @@ python manage.py makemigrations<br/>
 python manage.py migrate
 python manage.py runserver
 <br/>
+##### Part 2:
+pip install django-environ <br/>
+pip install stripe <br/>
+<br/>
