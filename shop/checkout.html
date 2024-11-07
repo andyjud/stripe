@@ -2,9 +2,9 @@
 
 {% block content %} 
 
-<div class="max-w-6xl mx-auto px-8 py-24">
+<div class="max-w-6xl mx-auto p-12">
     <h1>Checkout</h1>
-    <div class="grid grid-cols-3 gap-12">
+    <div class="md:grid grid-cols-3 gap-8">
         <div class="col-span-2">
             <form method="POST">
                 {% csrf_token %}
@@ -44,17 +44,19 @@
             </form>
         </div>
         <div>
-            <div id="checkout_module" class="border rounded-lg shadow-md p-4 mb-6">
+            <div class="border rounded-lg shadow-md p-6">
                 <div class="flex items-center justify-between mb-4">
-                    <span class="text-2xl">Sub total</span>
+                    <div class="text-2xl">Sub total</div>
                     <div>${{ cart.get_total_cost|floatformat:2 }}</div>
                 </div>
                 <div class="flex items-center justify-between mb-4">
                     <span>Items:</span>
                     <span>{{ cart|length }}</span>
                 </div>
-                <a href="{% url 'cart' %}" class="button button-gray !text-gray-600 !font-normal !py-2 !px-4 !shadow-none">Back to Cart</a>
-            </div>
+                <a href="{% url 'cart' %}" class="button button-gray !text-gray-600 !font-normal !py-2 !px-4 !shadow-none">
+                    Back to Cart
+                </a>
+            </div>   
             
         </div>
     </div>
