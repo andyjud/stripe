@@ -1,3 +1,4 @@
+# Product Variations
 {% if product_variation %}
 
     {% if product_variation.colors.all %}
@@ -37,3 +38,21 @@
     {% endif %}
     
 {% endif %}
+
+
+# Product Front and Back
+<div class="flex justify-center mt-4">
+    <div  class="flex gap-4">
+        <a href="">
+            <img src="{{ product_variation_object.image_front.url }}" 
+            class="w-16 h-16 rounded-lg border-2 hover:border-blue-500">
+        </a>
+        <a href="">
+            <img src="{{ product_variation_object.image_back.url }}" 
+            class="w-16 h-16 rounded-lg border-2 hover:border-blue-500">
+        </a>
+    </div>
+</div>
+
+
+
