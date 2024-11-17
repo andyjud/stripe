@@ -41,16 +41,22 @@
 
 
 # Product Front and Back
-<div class="flex justify-center mt-4">
-    <div  class="flex gap-4">
-        <a href="">
-            <img src="{{ product_variation_object.image_front.url }}" 
-            class="w-16 h-16 rounded-lg border-2 hover:border-blue-500">
-        </a>
-        <a href="">
-            <img src="{{ product_variation_object.image_back.url }}" 
-            class="w-16 h-16 rounded-lg border-2 hover:border-blue-500">
-        </a>
+<div x-data="{ selectedImage: 'front' }">
+    <img x-show="selectedImage === 'front'" class="rounded-xl w-full h-auto" src="{{ product_variation_object.image_front.url }}">
+    <img x-show="selectedImage === 'back'" x-cloak class="rounded-xl w-full h-auto" src="{{ product_variation_object.image_back.url }}">
+    <div class="flex justify-center mt-4">
+        <div  class="flex gap-4">
+            <a href="" @click="selectedImage = 'front'">
+                <img src="{{ product_variation_object.image_front.url }}" 
+                class="w-16 h-16 rounded-lg border-2 hover:border-blue-500"
+                :class="{ 'border-blue-500': selectedImage === 'front' }">
+            </a>
+            <a href="" @click="selectedImage = 'back'">
+                <img src="{{ product_variation_object.image_back.url }}" 
+                class="w-16 h-16 rounded-lg border-2 hover:border-blue-500"
+                :class="{ 'border-blue-500': selectedImage === 'back' }">
+            </a>
+        </div>
     </div>
 </div>
 
