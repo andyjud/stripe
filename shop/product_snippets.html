@@ -1,0 +1,39 @@
+{% if product_variation %}
+
+    {% if product_variation.colors.all %}
+    <div class="text-gray-400">Color</div>
+    <div class="mb-2">
+        {% for product_color in product_variation.colors.all %}
+            <a href="" 
+            class="inline-block p-3 rounded-full m-0.5 border-2 hover:border-blue-500" 
+            style="background-color: {{ product_color.color }}" >
+            </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if product_variation.sizes.all %}
+    <div class="text-gray-400">Size</div>
+    <div class="mb-2 grid grid-cols-4 gap-1">
+        {% for product_size in product_variation.sizes.all %}
+            <a href="" 
+            class="inline-block py-2 text-center rounded-lg m-0.5 border-2 hover:border-blue-500" >
+            {{ product_size.size }}
+            </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if product_variation.prices %}
+    <div class="text-gray-400">Quality</div>
+    <div class="mb-4 grid grid-cols-2 gap-1">
+        {% for product_price in product_variation.prices %}
+            <a href="" 
+            class="inline-block py-2 text-center rounded-lg m-0.5 border-2 hover:border-blue-500" >
+            {{ product_price.quality }}
+            </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+{% endif %}
