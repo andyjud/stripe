@@ -1,0 +1,104 @@
+{% extends 'layouts/blank.html' %}
+
+{% block content %} 
+
+<div class="max-w-4xl mx-auto px-8 py-24">
+    <div class="grid grid-cols-3 gap-6">
+        <div class="col-span-2 rounded-xl">
+            {% if not product_variation_obj %}
+                <img class="rounded-xl w-full h-auto" src="{{ product.image }}">
+                {% else %}
+                <div x-data="{ selectedImage: 'front' }">
+                <img x-show="selectedImage === 'front'" class="rounded-xl w-full h-auto" src="{{ product_variation_obj.image_front.url }}">
+                <img x-show="selectedImage === 'back'" x-cloak class="rounded-xl w-full h-auto" src="{{ product_variation_obj.image_back.url }}">
+                <div class="flex justify-center mt-4">
+                    <div  class="flex gap-4">
+                        <a @click="selectedImage = 'front'">
+                            <img src="{{ product_variation_obj.image_front.url }}" 
+                            class="cursor-pointer w-16 h-16 rounded-lg border-2 hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === 'front' }">
+                        </a>
+                        <a @click="selectedImage = 'back'">
+                            <img src="{{ product_variation_obj.image_back.url }}" 
+                            class="cursor-pointer w-16 h-16 rounded-lg border-2 hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedImage === 'back' }">
+                        </a>
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="pt-32">
+            <h2>{{ product.name }}</h2>
+            <p class="text-lg">${{ product.price|floatformat:2 }}</p>
+
+            {% if product_variation %}
+                {% if product_variation.colors.all %}
+                <div class="text-gray-400">Color</div>
+                <div class="mb-2">
+                    {% for product_color in product_variation.colors.all %}
+                        <a onclick="updateUrl('color', '{{ product_color.name|lower }}')" 
+                        class="cursor-pointer inline-block p-3 rounded-full m-0.5 border-2 hover:border-blue-500 {% if product_color.name|lower == color|lower %}border-blue-500{% endif %}" 
+                        style="background-color: {{ product_color.color }}">
+                        </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if product_variation.sizes.all %}
+                <div class="text-gray-400">Size</div>
+                <div class="mb-2 grid grid-cols-4 gap-1">
+                    {% for product_size in product_variation.sizes.all %}
+                        <a onclick="updateUrl('size', '{{ product_size.size|lower }}')"
+                        class="cursor-pointer inline-block py-2 text-center rounded-lg m-0.5 border-2 hover:border-blue-500 {% if product_size.size|lower == size|lower %}border-blue-500{% endif %}" >
+                        {{ product_size.size }}
+                        </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if product_variation.prices %}
+                <div class="text-gray-400">Quality</div>
+                <div class="mb-4 grid grid-cols-2 gap-1">
+                    {% for product_price in product_variation.prices %}
+                        <a onclick="updateUrl('quality', '{{ product_price.quality|lower }}')"
+                        class="cursor-pointer inline-block py-2 text-center rounded-lg m-0.5 border-2 hover:border-blue-500 {% if product_price.quality|lower == quality|lower %}border-blue-500{% endif %}" >
+                        {{ product_price.quality }}
+                        </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <a class="cursor-pointer button !block !rounded-full !bg-black hover:!bg-neutral-500 text-center"
+                    hx-get="{% url 'add_to_cart' product.id %}?color={{ request.GET.color }}&size={{ request.GET.size }}&quality={{ request.GET.quality }}"
+                    hx-target="this"
+                    hx-swap="outerHTML">
+                    Add to Cart
+                </a>
+                {% else %}
+                <a href="{% url 'account_login' %}?next={{ request.path }}" class="button !block !rounded-full !bg-black hover:!bg-neutral-500 text-center">
+                    Add to Cart
+                </a>
+            {% endif %}
+
+            <p class="pt-8 text-sm">{{ product.description }}</p>
+            <p class="text-sm hover:underline"><a href="https://andreas-juds-store.creator-spring.com/" target="_blank">Merch Store</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to update the URL with the selected option
+    function updateUrl(key, value) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set(key, value);
+        const newUrl = window.location.pathname + '?' + urlParams.toString();
+        window.history.pushState({}, '', newUrl);
+        window.location.reload();
+    }
+</script>
+
+{% endblock %}
