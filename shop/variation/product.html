@@ -9,22 +9,22 @@
                 <img class="rounded-xl w-full h-auto" src="{{ product.image }}">
                 {% else %}
                 <div x-data="{ selectedImage: 'front' }">
-                <img x-show="selectedImage === 'front'" class="rounded-xl w-full h-auto" src="{{ product_variation_obj.image_front.url }}">
-                <img x-show="selectedImage === 'back'" x-cloak class="rounded-xl w-full h-auto" src="{{ product_variation_obj.image_back.url }}">
-                <div class="flex justify-center mt-4">
-                    <div  class="flex gap-4">
-                        <a @click="selectedImage = 'front'">
-                            <img src="{{ product_variation_obj.image_front.url }}" 
-                            class="cursor-pointer w-16 h-16 rounded-lg border-2 hover:border-blue-500"
-                            :class="{ 'border-blue-500': selectedImage === 'front' }">
-                        </a>
-                        <a @click="selectedImage = 'back'">
-                            <img src="{{ product_variation_obj.image_back.url }}" 
-                            class="cursor-pointer w-16 h-16 rounded-lg border-2 hover:border-blue-500"
-                            :class="{ 'border-blue-500': selectedImage === 'back' }">
-                        </a>
+                    <img x-show="selectedImage === 'front'" class="rounded-xl w-full h-auto" src="{{ product_variation_obj.image_front.url }}">
+                    <img x-show="selectedImage === 'back'" x-cloak class="rounded-xl w-full h-auto" src="{{ product_variation_obj.image_back.url }}">
+                    <div class="flex justify-center mt-4">
+                        <div  class="flex gap-4">
+                            <a @click="selectedImage = 'front'">
+                                <img src="{{ product_variation_obj.image_front.url }}" 
+                                class="cursor-pointer w-16 h-16 rounded-lg border-2 hover:border-blue-500"
+                                :class="{ 'border-blue-500': selectedImage === 'front' }">
+                            </a>
+                            <a @click="selectedImage = 'back'">
+                                <img src="{{ product_variation_obj.image_back.url }}" 
+                                class="cursor-pointer w-16 h-16 rounded-lg border-2 hover:border-blue-500"
+                                :class="{ 'border-blue-500': selectedImage === 'back' }">
+                            </a>
+                        </div>
                     </div>
-                </div>
                 </div>
             {% endif %}
         </div>
