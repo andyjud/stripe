@@ -78,8 +78,7 @@ def add_to_cart(request, product_id):
     try:
         color_obj = ProductColor.objects.get(name__iexact=color)
         product_variation_obj = ProductVariationObject.objects.get(product=product_variation, color=color_obj)
-        # image = request.build_absolute_uri(product_variation_obj.image_front.url)
-        image = 'https://res.cloudinary.com/dpuzdancn/image/upload/f_auto,q_auto/v1/static/dksqceytazezyi1ustia'
+        image = request.build_absolute_uri(product_variation_obj.image_front.url)
     except:
         image = product['images'][0]
     
