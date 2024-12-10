@@ -1,0 +1,117 @@
+{% extends 'layouts/blank.html' %}
+
+{% block content %} 
+
+<div class="max-w-4xl mx-auto px-8 py-24">
+    <div class="grid grid-cols-3 gap-6">
+        <div class="col-span-2 rounded-xl">
+            {% if not product_variation_obj %}
+                <img class="rounded-xl w-full h-auto" src="{{ product.image }}">
+                {% else %}
+                {% include 'a_stripe/partials/product_variation.html' %}
+            {% endif %}
+        </div>
+        <div class="pt-32"
+            {% if product_variation_obj %}
+                x-data="{
+                    selectedColor: '{{ request.GET.color|default:product_variation_obj.color.name|lower }}',
+                    selectedSize: '{{ request.GET.size|default:"s" }}',
+                    selectedQuality: '{{ request.GET.quality|default:"normal" }}',
+                    currentPrice: '{{ product.price|floatformat:2 }}'
+                    }"
+            {% endif %}
+        >
+            <h2>{{ product.name }}</h2>
+            <p class="text-lg">
+                {% if not product_variation_obj %}
+                ${{ product.price|floatformat:2 }}
+                {% else %}
+                $<span x-text="currentPrice"></span>
+                {% endif %}
+            </p>
+            {% if product_variation %}
+                {% if product_variation.colors.all %}
+                <div class="text-gray-400">Color</div>
+                <div class="mb-2">
+                    {% for product_color in product_variation.colors.all %}
+                        <a 
+                            @click="selectedColor = '{{ product_color.name|lower }}';
+                                    updateUrl('color', selectedColor)"
+                            hx-get="{% url 'update_product_view' product.id %}?color={{ product_color.name|lower }}"
+                            hx-target="#product-image"
+                            class="cursor-pointer inline-block p-3 rounded-full m-0.5 border-2 hover:border-blue-500"
+                            :class="{ 'border-blue-500': selectedColor === '{{ product_color.name|lower }}' }" 
+                            style="background-color: {{ product_color.color }}">
+                        </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if product_variation.sizes.all %}
+                <div class="text-gray-400">Size</div>
+                <div class="mb-2 grid grid-cols-4 gap-1">
+                    {% for product_size in product_variation.sizes.all %}
+                        <a 
+                            @click="selectedSize = '{{ product_size.size|lower }}';
+                                    updateUrl('size', selectedSize)"
+                            class="cursor-pointer inline-block py-2 text-center rounded-lg m-0.5 border-2 hover:border-blue-500}"
+                            :class="{ 'border-blue-500': selectedSize === '{{ product_size.size|lower }}' }" >
+                            {{ product_size.size }}
+                        </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if product_variation.prices %}
+                <div class="text-gray-400">Quality</div>
+                <div class="mb-4 grid grid-cols-2 gap-1">
+                    {% for product_price in product_variation.prices %}
+                        <a 
+                            @click="selectedQuality = '{{ product_price.quality|lower }}';
+                                    currentPrice = '{{ product_price.price|floatformat:2 }}'; 
+                                    updateUrl('quality', selectedQuality)"
+                            class="cursor-pointer inline-block py-2 text-center rounded-lg m-0.5 border-2 hover:border-blue-500" 
+                            :class="{ 'border-blue-500': selectedQuality === '{{ product_price.quality|lower }}' }">
+                            {{ product_price.quality }}
+                        </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <form 
+                    hx-post="{% url 'add_to_cart' product.id %}"
+                    hx-target="this"
+                    hx-swap="outerHTML">
+                    <input type="hidden" name="color" x-bind:value="selectedColor">
+                    <input type="hidden" name="size" x-bind:value="selectedSize">
+                    <input type="hidden" name="quality" x-bind:value="selectedQuality">
+                    <button class="cursor-pointer button w-full !block !rounded-full !bg-black hover:!bg-neutral-500 text-center">
+                        Add to Cart
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'account_login' %}?next={{ request.path }}" class="button !block !rounded-full !bg-black hover:!bg-neutral-500 text-center">
+                    Add to Cart
+                </a>
+            {% endif %}
+
+            <p class="pt-8 text-sm">{{ product.description }}</p>
+            <p class="text-sm hover:underline"><a href="https://andreas-juds-store.creator-spring.com/" target="_blank">Merch Store</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to update the URL with the selected option
+    function updateUrl(key, value) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set(key, value);
+        const newUrl = window.location.pathname + '?' + urlParams.toString();
+        window.history.pushState({}, '', newUrl);
+    }
+</script>
+
+{% endblock %}
