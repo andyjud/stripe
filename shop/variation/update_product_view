@@ -1,0 +1,9 @@
+def update_product_view(request, product_id):
+    product_variation = ProductVariation.objects.filter(product_id=product_id).first()
+    product_variation_obj = None
+    if product_variation:
+        color = request.GET.get('color')
+        color_obj = ProductColor.objects.get(name__iexact=color)
+        product_variation_obj = product_variation.variation_objects.get(color=color_obj)
+        
+    return render(request, 'a_stripe/partials/product_variation.html', {'product_variation_obj': product_variation_obj})
