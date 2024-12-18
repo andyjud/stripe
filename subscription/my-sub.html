@@ -1,0 +1,29 @@
+{% extends 'layouts/blank.html' %}
+
+{% block content %}
+
+<div class="max-w-4xl mx-auto px-8 py-24">
+    <h1 class="mb-14 text-center">My Subscription</h1>
+
+    <div class="bg-gray-100 p-6 rounded-2xl">
+        <div class="flex items-center justify-between">
+            <div>
+                <div class="font-bold text-2xl">Basic Plan</div>
+                <div class="text-gray-500">Next charge date: January 31, 2025</div>
+            </div>
+            <div>
+                <div class="font-bold">$5 / month</div>
+            </div>
+        </div>
+        <div class="mt-6 flex gap-4">
+            <a class="button text-white" href="">Switch Plan</a>
+            <form method="post" action="" >
+                {% csrf_token %}
+                <button type="submit" class="!bg-white !text-gray-800 !font-normal">Cancel Subscription</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
