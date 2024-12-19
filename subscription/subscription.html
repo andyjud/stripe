@@ -1,0 +1,18 @@
+{% extends 'layouts/blank.html' %}
+
+{% block content %} 
+
+<div class="max-w-7xl mx-auto px-8 xl:px-0 py-24">
+
+<h1>Subscription</h1>
+
+<div class="mt-4">
+    <form method="POST">
+        {% csrf_token %}
+        <button class="button">Subscribe</button>
+    </form>
+</div>
+
+</div>
+
+{% endblock %}
