@@ -1,3 +1,7 @@
+#### Video Tutorial for this project
+https://www.youtube.com/watch?v=IzxNNWjYsPk&list=PL5E1F5cTSTtRwWj43zbcl5d-e2c1f1M9q
+<br><br>
+
 #### Commands
 ##### Part 1:
 git clone https://github.com/andyjud/django-starter.git . && rm -rf .git <br/>
